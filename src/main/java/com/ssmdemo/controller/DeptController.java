@@ -15,8 +15,9 @@ public class DeptController {
     @Autowired
     private DeptService deptService;
 
-    @GetMapping("/login.do")
+    @RequestMapping("/visit")
     public String toLogin(){
+        System.out.println("visit..............");
         return "login";
     }
 
