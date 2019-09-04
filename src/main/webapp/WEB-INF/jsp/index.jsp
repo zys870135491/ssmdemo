@@ -7,21 +7,51 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<script type="text/javascript" src="../scripts/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../static/jquery-3.4.1.min.js"></script>
 
-<script type="text/javascript">
-    
-    $("click").clcik(function () {
-      alert("asda")
-    })
-    
-</script>
+
+
 <html>
 <head>
     <title>DeptList</title>
-    <button id="click">按钮</button>
 </head>
 <body>
 
+    <button id="btn">按钮</button>
+
+
+
+
+    <script type="text/javascript">
+
+        $("#btn").click(function(){
+            console.log("qaq")
+            alert("asda")
+        })
+
+        $(function () {
+            $.ajax({
+                url:"/deptController/findEmpList",
+                data:{pageNo:1,date:new Date()},
+                type:"GET",
+                dataType: "json",
+                success:function (result) {
+                    debugger
+                    var data = result.records;
+                    if(result.success){
+                        alert("查询成功")
+                    }else{
+                        alert(result.message)
+                    }
+                },
+                error:function (erro) {
+                    alert("查询错误")
+                }
+            })
+        })
+
+    </script>
+
 </body>
+
 </html>

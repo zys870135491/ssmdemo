@@ -1,10 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--namespace要和dao层路径一致-->
 <mapper namespace="com.ssmdemo.dao.DeptMapper">
 
-    <select id="findDeptList" resultType="com.ssmdemo.entity.Dept">
+    <!--定义javabean的封装规则-->
+    <resultMap id="myDept" type="com.ssmdemo.entity.Dept">
+        <!--column:指定数据库查询出来的类型，property指定对应的javaBean类型-->
+        <id column="id" property="id"></id>
+        <!--普通列的封装-->
+        <result column="dept_name" property="deptName"></result>
+    </resultMap>
 
-      select id,dept_name deptName from tbl_dept
+    <sql id="deptSql">
+        select * from tbl_dept where 1 = 1
+    </sql>
+
+    <select id="findDeptList" resultMap="myDept">
+      select * from tbl_dept
     </select>
+
+
+    <select id="findDeptListConditions" resultMap="myDept">
+        select * from tbl_dept where 1=1
+        <!--test,判断表达式(OGNL),遇见特殊符号用转义字符-->
+        <if test="id!=null">
+            and id = #{id}
+        </if>
+        <if test="deptName !=null and deptName.trim()!=''">
+            and dept_name = #{deptName}
+        </if>
+    </select>
+
+    <select id="findDeptListChooseConditions" resultMap="myDept">
+        <include refid="deptSql"></include>
+        <!--带多个查询条件的话只会进入其中一个,如果都没有进入otherwise-->
+        <choose>
+            <when test="id!=null">
+                and id = #{id}
+            </when>
+            <when test="deptName !=null and deptName.trim()!=''">
+                and dept_name = #{deptName}
+            </when>
+            <otherwise>
+                and id = 1002
+            </otherwise>
+
+        </choose>
+    </select>
+
+
+    <select id="findDeptListByIds" resultMap="myDept">
+
+        <include refid="deptSql"></include>
+        <foreach collection="ids" item="deptId" separator=","
+                 open=" and id in (" close=")">
+             #{deptId}
+        </foreach>
+    </select>
+
+    <!--useGeneratedKeys="true" 获取自增主键策略，
+    keyProperty ="id"指定对应的主键属性，也就是mybatis获取到主键之后，将这个值封装给javaBean的哪个属性,批量插入可能不生效-->
+    <insert id="addDept" parameterType="com.ssmdemo.entity.Dept"
+        useGeneratedKeys="true" keyProperty ="id"
+    >
+       insert into tbl_dept(dept_name) values
+       <foreach collection="deptList" item ="dept" separator="," >
+           (#{dept.deptName})
+       </foreach>
+    </insert>
+
 
 </mapper>

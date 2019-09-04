@@ -35,5 +35,76 @@ public class DeptServiceImpl implements DeptService{
         return resultMap;
     }
 
+    @Override
+    public Map<String, Object> findDeptListConditions(Dept dept) {
+        Map<String,Object> resultMap = new HashMap<>();
+        List<String> errorList = new ArrayList<>();
+        List<Dept> deptList = new ArrayList<>();
+        try{
+            deptList = deptMapper.findDeptListConditions(dept);
+        }catch (Exception e){
+            e.printStackTrace();
+            errorList.add("查询错误");
+        }
+        resultMap.put("success",errorList.size()>0?false:true);
+        resultMap.put("message",errorList);
+        resultMap.put("records",deptList);
+
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> findDeptListChooseConditions(Dept dept) {
+        Map<String,Object> resultMap = new HashMap<>();
+        List<String> errorList = new ArrayList<>();
+        List<Dept> deptList = new ArrayList<>();
+        try{
+            deptList = deptMapper.findDeptListChooseConditions(dept);
+        }catch (Exception e){
+            e.printStackTrace();
+            errorList.add("查询错误");
+        }
+        resultMap.put("success",errorList.size()>0?false:true);
+        resultMap.put("message",errorList);
+        resultMap.put("records",deptList);
+
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> findDeptListByIds(List<Long> ids) {
+        Map<String,Object> resultMap = new HashMap<>();
+        List<String> errorList = new ArrayList<>();
+        List<Dept> deptList = new ArrayList<>();
+        try{
+            deptList = deptMapper.findDeptListByIds(ids);
+        }catch (Exception e){
+            e.printStackTrace();
+            errorList.add("查询错误");
+        }
+        resultMap.put("success",errorList.size()>0?false:true);
+        resultMap.put("message",errorList);
+        resultMap.put("records",deptList);
+
+        return resultMap;
+    }
+
+    @Override
+    public Map<String, Object> addDept(List<Dept> deptList) {
+        Map<String,Object> resultMap = new HashMap<>();
+        List<String> errorList = new ArrayList<>();
+
+        try{
+            deptMapper.addDept(deptList);
+        }catch (Exception e){
+            e.printStackTrace();
+            errorList.add("添加失败");
+        }
+        resultMap.put("success",errorList.size()>0?false:true);
+        resultMap.put("message",errorList);
+
+        return resultMap;
+    }
+
 
 }
