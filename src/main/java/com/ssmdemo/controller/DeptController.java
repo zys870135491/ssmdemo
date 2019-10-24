@@ -33,9 +33,9 @@ public class DeptController {
         return "index";
     }
 
-    @RequestMapping(value = "/findEmpList")
+    @RequestMapping(value = "/findDeptList", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String,Object> finEmpList(){
+    public Map<String,Object> finDeptList(){
         return deptService.findDeptList();
     }
 

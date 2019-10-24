@@ -6,6 +6,7 @@ public class Employee {
     private String lastName;
     private String email;
     private Integer gender;
+    private Integer deptId;
     private Dept dept;
 
     public Employee() {
@@ -43,6 +44,14 @@ public class Employee {
         this.gender = gender;
     }
 
+    public Integer getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Integer deptId) {
+        this.deptId = deptId;
+    }
+
     public Dept getDept() {
         return dept;
     }
@@ -58,6 +67,7 @@ public class Employee {
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", gender=" + gender +
+                ", deptId=" + deptId +
                 ", dept=" + dept +
                 '}';
     }
